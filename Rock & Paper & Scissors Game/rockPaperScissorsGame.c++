@@ -111,11 +111,11 @@ string increaseScore(string winner)
 string decidesWinner()
 {
     if (resComputer > resPlayer)
-        return "Computer\n";
+        return "Computer";
     else if (resPlayer > resComputer)
-        return "Player\n";
+        return "Player";
     else
-        return "Draw\n";
+        return "Draw";
 }
 
 void PrintRoundResults(int m)
@@ -137,7 +137,6 @@ void round()
         ReadPlayerChoise();
         changecolor(choiceWinner());
         increaseScore(choiceWinner());
-        changecolor(decidesWinner());
         PrintRoundResults(i);
     }
 }
@@ -152,6 +151,7 @@ void GameOvr()
     cout << "Player won times : " << resPlayer << endl;
     cout << "Computer won times : " << resComputer << endl;
     cout << "Draw times : " << draw << endl;
+    changecolor(decidesWinner());
     cout << "Final Winner : " << decidesWinner() << endl;
 }
 
