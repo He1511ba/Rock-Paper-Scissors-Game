@@ -1,5 +1,4 @@
 #include <iostream>
-#include <ctime>
 #include <cstdlib>
 using namespace std;
 
@@ -10,7 +9,11 @@ void NumOfRaund()
 {
     cout << "Chose Number of Round Between 1 to 10: \n";
     cin >> n;
-    cout << "\n --------- \n";
+    if (n <= 0 || n > 10)
+    {
+        cout << "\n Wrong answer , you have to choice number between 1 to 10. \n ";
+        NumOfRaund();
+    }
 }
 
 void ReadComputerChoise(int from, int to)
@@ -20,11 +23,12 @@ void ReadComputerChoise(int from, int to)
 
 void ReadPlayerChoise()
 {
+
     cout << "\n Your Choice :[0]--> Stone , [1]--> Paper , [2] --> Scissors ? \n";
     cin >> PlayerChoice;
-    if (PlayerChoice > 2)
+    if (PlayerChoice > 2 || PlayerChoice < 0)
     {
-        cout << "\n Choice Number between 0 to 2. \n ";
+        cout << "\n Wrong answer , you have to choice number between 0 to 2. \n ";
         ReadPlayerChoise();
     }
 }
@@ -74,6 +78,16 @@ string choiceWinner()
         return "computer";
 }
 
+void changecolor(string winner)
+{
+    if (winner == "computer" || winner == "Computer")
+        system("color 4f"); // red
+    else if (winner == "player" || winner == "Player")
+        system("color 2f"); // green
+    else if (winner == "draw" || winner == "Draw")
+        system("color 1f"); // blue
+}
+
 string resForEachRound(string winner)
 {
     if (winner == "computer")
@@ -106,10 +120,11 @@ string decidesWinner()
 
 void PrintRoundResults(int m)
 {
+
     cout << "\n----------------Round [" << m << " ]-----------------------\n";
     cout << "Player Choise : " << choiceNameForPlayer() << endl;
     cout << "Computer Choise : " << choiceNameForComputer() << endl;
-    cout << "The Winer in this Round is : " <<resForEachRound(choiceWinner())<< endl;
+    cout << "The Winer in this Round is : " << resForEachRound(choiceWinner()) << endl;
     cout << "\n------------------------------------------------------------\n";
 }
 
@@ -120,7 +135,9 @@ void round()
         cout << "Round [ " << i << " ] beginer : \n";
         ReadComputerChoise(0, 2);
         ReadPlayerChoise();
+        changecolor(choiceWinner());
         increaseScore(choiceWinner());
+        changecolor(decidesWinner());
         PrintRoundResults(i);
     }
 }
@@ -128,7 +145,7 @@ void round()
 void GameOvr()
 {
     cout << "\n-----------------------------------------------\n";
-    cout << "|                     Game Over                  |\n";
+    cout << "\n                     Game Over                 \n";
     cout << "\n-----------------------------------------------\n";
     cout << "-------------------- Game Result ----------------\n";
     cout << "Game Round : " << n << endl;
@@ -146,6 +163,7 @@ void ResetScreen()
     draw = 0,
     ComChoice = 0,
     PlayerChoice = 0;
+    system("color 0F");
     system("cls");
 }
 
