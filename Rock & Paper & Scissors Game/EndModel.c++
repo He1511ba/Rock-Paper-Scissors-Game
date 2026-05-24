@@ -2,7 +2,7 @@
 #include <cstdlib>
 using namespace std;
 
-enum emChioce
+enum emChoice
 {
     Stone = 1,
     Papar = 2,
@@ -33,7 +33,7 @@ int RandomNum(int from, int to)
     return rand() % (to - from + 1) + from;
 }
 
-emChioce readPlayerChoice() //enum function 
+emChoice readPlayerChoice() // enum function
 {
     int playerChoice;
     do
@@ -42,12 +42,44 @@ emChioce readPlayerChoice() //enum function
         cin >> playerChoice;
     } while (playerChoice < 1 || playerChoice > 3);
 
-    return (emChioce)playerChoice; // enum variable
+    return (emChoice)playerChoice; // enum variable
 }
 
-emChioce readComputerChoice()
+emChoice readComputerChoice()
 {
-    return (emChioce)RandomNum(1,3) ;
+    return (emChoice)RandomNum(1, 3);
+}
+
+struct stRoundInfo
+{
+    short numOfRound;
+    emChoice playerChoice;
+    emChoice comChoice;
+    emWinner whoWinner;
+    string WinnerName;
+};
+
+emWinner whoWonInTheRound(stRoundInfo StRoundInfo)
+{
+    if (StRoundInfo.comChoice == StRoundInfo.playerChoice)
+        return emWinner::Draw;
+        
+    switch (StRoundInfo.playerChoice)
+    {
+    case emChoice::Stone:
+        if (StRoundInfo.comChoice == emChoice::Papar)
+            return emWinner::Computer;
+        break;
+    case emChoice::Papar:
+        if (StRoundInfo.comChoice == emChoice::Scissors)
+            return emWinner::Computer;
+        break;
+    case emChoice::Scissors:
+        if (StRoundInfo.comChoice == emChoice::Stone)
+            return emWinner::Computer;
+        break;
+    }
+    return emWinner::Player;
 }
 
 int main()
