@@ -63,7 +63,7 @@ emWinner whoWonInTheRound(stRoundInfo StRoundInfo)
 {
     if (StRoundInfo.comChoice == StRoundInfo.playerChoice)
         return emWinner::Draw;
-        
+
     switch (StRoundInfo.playerChoice)
     {
     case emChoice::Stone:
@@ -82,8 +82,107 @@ emWinner whoWonInTheRound(stRoundInfo StRoundInfo)
     return emWinner::Player;
 }
 
+emWinner whoFinalWinner(short playerWonTimes, short comWonTimes, short drawWonTimes)
+{
+    if (playerWonTimes == comWonTimes)
+        return emWinner::Draw;
+    else if (playerWonTimes > comWonTimes)
+        return emWinner::Player;
+    else
+        return emWinner ::Computer;
+}
+
+string winnerNameFromRound(emWinner winner)
+{
+    string arr[3] = {
+        "Player",
+        "Computer",
+        "Draw"};
+    return arr[winner - 1];
+}
+
+string choiceName(emChoice choice)
+{
+    string arr[3] = {
+        "Stone",
+        "Papar",
+        "Scissors"};
+    return arr[choice - 3];
+}
+
+void changecolor(emWinner winner)
+{
+    switch (winner)
+    {
+    case emWinner::Player:
+        system("color 2f");
+        break;
+    case emWinner::Computer:
+        system("color 4f");
+        break;
+    case emWinner::Draw:
+        system("color 1f");
+        break;
+    }
+}
+
+void PrintRoundResults(stRoundInfo StRoundInfo)
+{
+
+    cout << "\n---------------------Round [" << StRoundInfo.numOfRound << " ]-----------------------------\n"
+         << endl;
+    cout << "Player Choise : " << choiceName(StRoundInfo.playerChoice) << endl;
+    cout << "Computer Choise : " << choiceName(StRoundInfo.comChoice) << endl;
+    cout << "The Winer in this Round is : " << StRoundInfo.WinnerName << endl
+         << endl;
+    cout << "\n------------------------------------------------------------\n";
+
+    changecolor(StRoundInfo.whoWinner);
+}
+
+struct stGameResult
+{
+    short gameRounds;
+    short playerTimeWinner;
+    short computerTimeWinner;
+    short drawTimes;
+    emWinner whoFinalWinner;
+    string nameFinalWinner;
+};
+
+string  NameFinalWinner(emWinner winner)
+{
+    string arr[3] = {
+        "Player",
+        "Computer",
+        "Draw"};
+    return arr[winner - 1];
+}
+
+stGameResult printGameResualt(int HowManyRounds, short Player1WonTimes, short ComputerWonTimes, short DrawTimes)
+{
+    stGameResult  GameResult;
+
+    GameResult.gameRounds= HowManyRounds;
+    GameResult.playerTimeWinner=Player1WonTimes;
+    GameResult.computerTimeWinner=ComputerWonTimes;
+    GameResult.drawTimes = DrawTimes;
+    GameResult.whoFinalWinner = whoFinalWinner(Player1WonTimes,ComputerWonTimes,DrawTimes);
+    GameResult.nameFinalWinner= NameFinalWinner(GameResult.whoFinalWinner);
+
+    return GameResult;
+}
+
+
+void restart()
+{
+    system("cls");
+    system("color 0f");
+}
+
 int main()
 {
     ReadNumOfRound();
     readPlayerChoice();
+    restart();
 }
